@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/created-by: application-service
+    app.kubernetes.io/instance: test-component--gyjs
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: test-component--gyjs
+    app.kubernetes.io/part-of: test-app-hqok
+  name: test-component--gyjs
+  namespace: appstudio-e2e-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: test-component--gyjs
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: test-component--gyjs
+    spec:
+      containers:
+      - image: quay.io/psturc/test-images:8ca47eee01004cd49d0fee440a7a6d42
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        name: container-image
+        ports:
+        - containerPort: 8081
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          tcpSocket:
+            port: 8081
+        resources: {}
+status: {}
